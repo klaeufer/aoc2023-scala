@@ -4,9 +4,7 @@ version := "0.1"
 
 scalaVersion := "3.3.1"
 
-scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-Yexplicit-nulls", "-Ysafe-init", "-language:strictEquality")
-
-coverageEnabled := true
+scalacOptions += "@.scalacOptions.txt"
 
 libraryDependencies ++= Seq(
   "org.scalanlp" %% "breeze" % "2.1.0",
@@ -19,4 +17,3 @@ logBuffered := false
 Test / parallelExecution := false
 
 enablePlugins(JavaAppPackaging)
-
