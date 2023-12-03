@@ -1,40 +1,29 @@
 // https://www.reddit.com/r/adventofcode/comments/1884fpl/2023_day_1for_those_who_stuck_on_part_2/
 // https://stackoverflow.com/questions/41243815/overlapping-matches-in-regex-scala
 
-import scala.util.matching.Regex
+object Day1:
 
-object Day1 extends App:
+  def main(args: Array[String]): Unit =
+    runCalibration(1, simpleDigits)
+    runCalibration(2, allDigits)
 
-  def example1 =
-    import scala.language.unsafeNulls
-    """1abc2
-      |pqr3stu8vwx
-      |a1b2c3d4e5f
-      |treb7uchet""".stripMargin('|').split("\n").iterator
+  def runCalibration(part: Int, digits: Seq[String]) =
+    scala.util.Using(scala.io.Source.fromFile("data/day1Input.txt")):
+      source =>
+        val result = calibration(source.getLines(), digits)
+        println(s"Day 1 part $part solution: $result")
+    .foreach(identity)
 
-  def example2 =
-    import scala.language.unsafeNulls
-    """two1nine
-      |eightwothree
-      |abcone2threexyz
-      |xtwone3four
-      |4nineeightseven2
-      |zoneight234
-      |7pqrstsixteen""".stripMargin('|').split("\n").iterator
+  val simpleDigits: Seq[String] = (0 to 9).map(_.toString)
+  val wordDigits: Seq[String] = Seq("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+  val allDigits: Seq[String] = simpleDigits ++ wordDigits
 
-  def input = scala.io.Source.fromFile("data/day1Input.txt").getLines()
-
-  val digits1: Regex = "([0-9])".r
-  val digits2 = Seq("one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
-  val digits3 = (0 to 9).map(_.toString)
-  val digits4 = digits3 ++ digits2
-  val digitToStringMap = digits2.zip(1 to 9).toMap
-
-  println(digits4)
-
-  extension (s: String) def digitToInt: Int = s match
-    case digits1(d) => d.toInt
-    case s => digitToStringMap(s)
+  extension (s: String) def digitToInt: Int =
+    val digitToStringMap = wordDigits.zip(1 to 9).toMap
+    val digit: scala.util.matching.Regex = "([0-9])".r
+    s match
+      case digit(d) => d.toInt
+      case s => digitToStringMap(s)
 
   def calibration(data: Iterator[String], digits: Seq[String]): Int =
     data.map:
@@ -46,8 +35,3 @@ object Day1 extends App:
         val result = 10 * first + last
         result
     .sum
-
-  println(s"Day 1 part 1 example:  ${calibration(example1, digits3)}")
-  println(s"Day 1 part 1 solution: ${calibration(input, digits3)}")
-  println(s"Day 1 part 2 example:  ${calibration(example2, digits4)}")
-  println(s"Day 1 part 2 solution: ${calibration(input, digits4)}")
