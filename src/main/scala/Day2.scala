@@ -7,7 +7,7 @@ object Day2:
   val GREEN = "green"
   val BLUE = "blue"
 
-  def example1 =
+  def example =
     import scala.language.unsafeNulls
     """Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
       |Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -47,16 +47,19 @@ object Day2:
 
   val bag1 = Map(RED -> 12, GREEN -> 13, BLUE -> 14)
 
-  def main(args: Array[String]): Unit =
-    println(example1.map(lineToGame).filter(isGamePossible(bag1, _)).map(_._1).sum) // 8
-    println(example1.map(lineToGame).map(minCubesPower).sum) // 2286
+  def doExample(part: Int, f: Iterator[Game] => Int): Unit =
+    val result = f(example.map(lineToGame))
+    println(s"Day 1 part $part example: $result")
+
+  def doPart(part: Int, f: Iterator[Game] => Int): Unit =
     scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")):
       source =>
-        val result = source.getLines().map(lineToGame).filter(isGamePossible(bag1, _)).map(_._1).sum
+        val result = f(source.getLines().map(lineToGame))
         println(s"Day 1 part 1 solution: $result")
     .foreach(identity)
-    scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")):
-      source =>
-        val result = source.getLines().map(lineToGame).map(minCubesPower).sum
-        println(s"Day 1 part 2 solution: $result")
-    .foreach(identity)
+
+  def main(args: Array[String]): Unit =
+    doExample(1, _.filter(isGamePossible(bag1, _)).map(_._1).sum) // 8
+    doExample(2, _.map(minCubesPower).sum) // 2286
+    doPart(1, _.filter(isGamePossible(bag1, _)).map(_._1).sum) // 8
+    doPart(2, _.map(minCubesPower).sum) // 2286
