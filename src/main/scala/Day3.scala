@@ -27,7 +27,7 @@ object Day3:
     val end = m.end
     val line = schematic(row)
     val height = schematic.size
-    val width = line.size
+    val width = line.length
     0 < start && isSymbol(line(start - 1)) || end < width && isSymbol(line(end))
       || (math.max(0, start - 1) to math.min(width - 1, end))
            .exists(i => row > 0 && isSymbol(schematic(row - 1)(i)) || row < height - 1 && isSymbol(schematic(row + 1)(i)))

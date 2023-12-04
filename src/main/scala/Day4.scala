@@ -26,18 +26,14 @@ object Day4:
       .map((w, a) => math.pow(2, w.intersect(a).size - 1).toInt)
       .sum
 
-  def processOneCard(cards: IndexedSeq[Card], i: Int): Int =
-    Iterator.iterate(Queue((cards(i), i))): queue =>
+  def processCards(cards: IndexedSeq[Card]): Int =
+    Iterator.iterate(Queue(cards.zipWithIndex*)): queue =>
         val (((w, a), k), q) = queue.dequeue
         q ++ (1 to w.intersect(a).size).map(j => (cards(k + j), k + j))
       .takeWhile(_.nonEmpty)
       .length
 
-  def processAllCards(source: IndexedSeq[String]): Int =
-    val cards = source.map(lineToCard)
-    cards.indices
-      .map(i => processOneCard(cards, i))
-      .sum
+  def processAllCards(source: IndexedSeq[String]): Int = processCards(source.map(lineToCard))
 
   def input = scala.io.Source.fromFile("data/day4Input.txt").getLines().toIndexedSeq
 

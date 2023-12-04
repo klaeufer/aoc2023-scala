@@ -23,7 +23,7 @@ object Day2:
     val game = """Game (\d+):(.*)""".r
     val subset = """([^;]+)""".r
     val cube = """(\d+) +(red|green|blue)""".r
-    val game(n, r) = line
+    val game(n, r) = line: @unchecked
     (n.toInt,
       subset.findAllIn(r).map:
         cube.findAllIn(_).matchData.map: m =>
@@ -32,7 +32,7 @@ object Day2:
       .toSeq
     )
 
-  def isGamePossible(bag: Bag, game: Game) =
+  def isGamePossible(bag: Bag, game: Game): Boolean =
     game._2.forall(_.forall((k, v) => v <= bag.getOrElse(k, 0)))
 
   def minCubesPower(game: Game): Int =
