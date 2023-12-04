@@ -10,7 +10,7 @@ class Day1Test extends AnyFunSuite, should.Matchers:
     """1abc2
       |pqr3stu8vwx
       |a1b2c3d4e5f
-      |treb7uchet""".stripMargin('|').split("\n").iterator
+      |treb7uchet""".stripMargin.split("\n").iterator
 
   def example2 =
     import scala.language.unsafeNulls
@@ -20,7 +20,7 @@ class Day1Test extends AnyFunSuite, should.Matchers:
       |xtwone3four
       |4nineeightseven2
       |zoneight234
-      |7pqrstsixteen""".stripMargin('|').split("\n").iterator
+      |7pqrstsixteen""".stripMargin.split("\n").iterator
 
   test("Day 1 part 1"):
     assert(calibration(example1, simpleDigits) == 142)

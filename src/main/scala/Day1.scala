@@ -20,7 +20,7 @@ object Day1:
 
   extension (s: String) def digitToInt: Int =
     val digitToStringMap = wordDigits.zip(1 to 9).toMap
-    val digit: scala.util.matching.Regex = "([0-9])".r
+    val digit: scala.util.matching.Regex = "(\\d)".r
     s match
       case digit(d) => d.toInt
       case s => digitToStringMap(s)
