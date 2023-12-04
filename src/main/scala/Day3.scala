@@ -23,17 +23,16 @@ object Day3:
     val start = m.start
     val end = m.end
     val line = schematic(row)
-    val size = line.size
-    0 < start && isSymbol(line(start - 1)) || end < size && isSymbol(line(end))
-      || (math.max(0, start - 1) to math.min(size - 1, end))
-           .exists(i => row > 0 && isSymbol(schematic(row - 1)(i)) || row < size - 1 && isSymbol(schematic(row + 1)(i)))
-
-  val number = """\d+""".r
+    val height = schematic.size
+    val width = line.size
+    0 < start && isSymbol(line(start - 1)) || end < width && isSymbol(line(end))
+      || (math.max(0, start - 1) to math.min(width - 1, end))
+           .exists(i => row > 0 && isSymbol(schematic(row - 1)(i)) || row < height - 1 && isSymbol(schematic(row + 1)(i)))
 
   def addPartNumbers(schematic: Seq[String]): Int =
     schematic
       .zipWithIndex
-      .flatMap((line, row) => number.findAllIn(line).matchData.withFilter(isAdjacentToSymbol(schematic, row, _)))
+      .flatMap((line, row) => """\d+""".r.findAllIn(line).matchData.withFilter(isAdjacentToSymbol(schematic, row, _)))
       .map(_.toString.toInt)
       .sum
 
