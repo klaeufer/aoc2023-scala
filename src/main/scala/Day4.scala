@@ -17,27 +17,32 @@ object Day4:
   def lineToCard(line: String): Card =
     val card = """Card *(\d+):(.*)\|(.*)""".r
     val number = """(\d+)""".r
-    val card(n, w, a) = line
+    val card(n, w, a) = line: @unchecked
     (number.findAllIn(w).map(_.toInt).toSet, number.findAllIn(a).map(_.toInt).toSet)
 
   def addCardValues(input: IndexedSeq[String]): Int =
     input
-      .map(lineToCard(_))
+      .map(lineToCard)
       .map((w, a) => math.pow(2, w.intersect(a).size - 1).toInt)
       .sum
 
-  def processCard(cards: IndexedSeq[Card], i: Int): Int =
-    Iterator.iterate(Queue((i, cards(i)))): queue =>
-      val ((k, (w, a)), q) = queue.dequeue
-//      println(((w, a), q).toString)
-      q ++ (1 to w.intersect(a).size).map(j => (k + j, cards(k + j)))
-    .takeWhile(_.nonEmpty)
-    .length
+  def processOneCard(cards: IndexedSeq[Card], i: Int): Int =
+    Iterator.iterate(Queue((cards(i), i))): queue =>
+        val (((w, a), k), q) = queue.dequeue
+        q ++ (1 to w.intersect(a).size).map(j => (cards(k + j), k + j))
+      .takeWhile(_.nonEmpty)
+      .length
+
+  def processAllCards(source: IndexedSeq[String]): Int =
+    val cards = source.map(lineToCard)
+    cards.indices
+      .map(i => processOneCard(cards, i))
+      .sum
 
   def input = scala.io.Source.fromFile("data/day4Input.txt").getLines().toIndexedSeq
 
   def main(args: Array[String]): Unit =
-    println(addCardValues(example))
-    println(addCardValues(input))
-    println((0 until example.size).map(processCard(example.map(lineToCard(_)), _)).sum)
-    println((0 until input.size).map(processCard(input.map(lineToCard(_)), _)).sum)
+    println(s"day 4 part 1 example: ${addCardValues(example)}")
+    println(s"day 4 part 1 solution: ${addCardValues(input)}")
+    println(s"day 4 part 2 example: ${processAllCards(example)}")
+    println(s"day 4 part 2 solution: ${processAllCards(input)}")
