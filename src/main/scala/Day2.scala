@@ -33,17 +33,13 @@ object Day2:
     )
 
   def isGamePossible(bag: Bag, game: Game) =
-    game._2.forall:
-      _.forall:
-        (k, v) => v <= bag.getOrElse(k, 0)
+    game._2.forall(_.forall((k, v) => v <= bag.getOrElse(k, 0)))
 
   def minCubesPower(game: Game): Int =
-    Seq(RED, GREEN, BLUE).map:
-      col =>
-        game._2.map(_.getOrElse(col, 0))
-    .map:
-      _.max
-    .product
+    Seq(RED, GREEN, BLUE)
+      .map(col => game._2.map(_.getOrElse(col, 0)))
+      .map(_.max)
+      .product
 
   val bag1 = Map(RED -> 12, GREEN -> 13, BLUE -> 14)
 
@@ -55,7 +51,7 @@ object Day2:
     scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")):
       source =>
         val result = f(source.getLines().map(lineToGame))
-        println(s"Day 1 part 1 solution: $result")
+        println(s"Day 1 part $part solution: $result")
     .foreach(identity)
 
   def main(args: Array[String]): Unit =
