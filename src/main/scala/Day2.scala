@@ -51,7 +51,7 @@ object Day2:
     val result = f(example.map(lineToGame))
     println(s"Day 1 part $part example: $result")
 
-  def doPart(part: Int, f: Iterator[Game] => Int): Unit =
+  def doInput(part: Int, f: Iterator[Game] => Int): Unit =
     scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")):
       source =>
         val result = f(source.getLines().map(lineToGame))
@@ -59,7 +59,9 @@ object Day2:
     .foreach(identity)
 
   def main(args: Array[String]): Unit =
-    doExample(1, _.filter(isGamePossible(bag1, _)).map(_._1).sum) // 8
-    doExample(2, _.map(minCubesPower).sum) // 2286
-    doPart(1, _.filter(isGamePossible(bag1, _)).map(_._1).sum) // 8
-    doPart(2, _.map(minCubesPower).sum) // 2286
+    def part1(games: Iterator[Game]) = games.filter(isGamePossible(bag1, _)).map(_._1).sum
+    def part2(games: Iterator[Game]) = games.map(minCubesPower).sum
+    doExample(1, part1) // 8
+    doExample(2, part2) // 2286
+    doInput(1, part1)
+    doInput(2, part2)
