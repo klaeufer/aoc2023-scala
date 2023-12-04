@@ -27,9 +27,9 @@ object Day4:
       .sum
 
   def processCards(cards: IndexedSeq[Card]): Int =
-    Iterator.iterate(Queue(cards.zipWithIndex*)): queue =>
-        val (((w, a), k), q) = queue.dequeue
-        q ++ (1 to w.intersect(a).size).map(j => (cards(k + j), k + j))
+    Iterator.iterate(Queue(cards.zipWithIndex*)): q0 =>
+        val (((w, a), k), q1) = q0.dequeue
+        q1 ++ (1 to w.intersect(a).size).map(j => (cards(k + j), k + j))
       .takeWhile(_.nonEmpty)
       .length
 
