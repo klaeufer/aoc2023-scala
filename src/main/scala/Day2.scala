@@ -26,8 +26,8 @@ object Day2:
     val game(n, r) = line
     (n.toInt,
       subset.findAllIn(r).map:
-        cube.findAllIn(_).matchData.map:
-          m => (m.group(2), m.group(1).toInt)
+        cube.findAllIn(_).matchData.map: m =>
+          (m.group(2), m.group(1).toInt)
         .toMap
       .toSeq
     )
@@ -48,10 +48,9 @@ object Day2:
     println(s"Day 1 part $part example: $result")
 
   def doInput(part: Int, f: Iterator[Game] => Int): Unit =
-    scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")):
-      source =>
-        val result = f(source.getLines().map(lineToGame))
-        println(s"Day 1 part $part solution: $result")
+    scala.util.Using(scala.io.Source.fromFile("data/day2Input.txt")): source =>
+      val result = f(source.getLines().map(lineToGame))
+      println(s"Day 1 part $part solution: $result")
     .foreach(identity)
 
   def main(args: Array[String]): Unit =

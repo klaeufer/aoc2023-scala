@@ -37,8 +37,8 @@ object Day3:
   def addPartNumbers(schematic: Seq[String]): Int =
     schematic
       .zipWithIndex
-      .flatMap:
-        (line, row) => number
+      .flatMap: (line, row) =>
+        number
           .findAllIn(line)
           .matchData
           .withFilter(isAdjacentToSymbol(schematic, row, _))
@@ -48,8 +48,8 @@ object Day3:
   def starPositions(schematic: Schematic): Seq[Pos] =
     schematic
       .zipWithIndex
-      .flatMap:
-        (line, row) => line
+      .flatMap: (line, row) =>
+        line
           .zipWithIndex
           .withFilter(_._1 == '*')
           .map((_, col) => (row, col))
@@ -65,10 +65,11 @@ object Day3:
 //      .map(m => { println(s"[$row,$col] ${m.start}:${m.end} ${m.toString}") ; m })
       .filter(m => m.start - 1 <= col && col <= m.end)
       .map(_.toString.toInt)
+      .toSeq
 
   def gearRatios(schematic: Schematic) =
     starPositions(schematic)
-      .map(adjacentPartNumbers(schematic, _).toSeq)
+      .map(adjacentPartNumbers(schematic, _))
       .withFilter(_.size == 2)
       .map(_.product)
       .sum
@@ -77,8 +78,8 @@ object Day3:
     println(addPartNumbers(example))
     println(addPartNumbers(input))
     println(starPositions(example))
-    println(adjacentPartNumbers(example, (1, 3)).toSeq)
-    println(adjacentPartNumbers(example, (4, 3)).toSeq)
-    println(adjacentPartNumbers(example, (8, 5)).toSeq)
+    println(adjacentPartNumbers(example, (1, 3)))
+    println(adjacentPartNumbers(example, (4, 3)))
+    println(adjacentPartNumbers(example, (8, 5)))
     println(gearRatios(example))
     println(gearRatios(input))
