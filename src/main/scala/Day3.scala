@@ -17,7 +17,6 @@ object Day3:
 
   val input = scala.util.Using(scala.io.Source.fromFile("data/day3Input.txt"))(_.getLines().toSeq).get
 
-
   def isSymbol(c: Char) = """!\"#$%&'()*+,-/:;<=>?@[\\]^_`{|}~""".contains(c)
 
   def isAdjacentToSymbol(schematic: Seq[String], row: Int, m: Match) =
@@ -25,17 +24,19 @@ object Day3:
     val end = m.end
     val line = schematic(row)
     val size = line.size
-    0 < start && isSymbol(line(start - 1))
-      || end < size && isSymbol(line(end))
-      || 0 < row && (math.max(0, start - 1) to math.min(size - 1, end)).exists(i => isSymbol(schematic(row - 1)(i)))
-      || row < size - 1 && (math.max(0, start - 1) to math.min(size - 1, end)).exists(i => isSymbol(schematic(row + 1)(i)))
+    0 < start && isSymbol(line(start - 1)) || end < size && isSymbol(line(end))
+      || (math.max(0, start - 1) to math.min(size - 1, end))
+           .exists(i => row > 0 && isSymbol(schematic(row - 1)(i)) || row < size - 1 && isSymbol(schematic(row + 1)(i)))
 
   val number = """\d+""".r
 
-  def main(args: Array[String]): Unit =
-    println(input
+  def addPartNumbers(schematic: Seq[String]): Int =
+    schematic
       .zipWithIndex
-      .flatMap((line, row) => number.findAllIn(line).matchData.withFilter(isAdjacentToSymbol(input, row, _)))
+      .flatMap((line, row) => number.findAllIn(line).matchData.withFilter(isAdjacentToSymbol(schematic, row, _)))
       .map(_.toString.toInt)
       .sum
-    )
+
+  def main(args: Array[String]): Unit =
+    println(addPartNumbers(example))
+    println(addPartNumbers(input))
