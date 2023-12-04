@@ -33,12 +33,10 @@ object Day4:
       .takeWhile(_.nonEmpty)
       .length
 
-  def processAllCards(source: IndexedSeq[String]): Int = processCards(source.map(lineToCard))
-
   def input = scala.io.Source.fromFile("data/day4Input.txt").getLines().toIndexedSeq
 
   def main(args: Array[String]): Unit =
     println(s"day 4 part 1 example: ${addCardValues(example)}")
     println(s"day 4 part 1 solution: ${addCardValues(input)}")
-    println(s"day 4 part 2 example: ${processAllCards(example)}")
-    println(s"day 4 part 2 solution: ${processAllCards(input)}")
+    println(s"day 4 part 2 example: ${processCards(example.map(lineToCard))}")
+    println(s"day 4 part 2 solution: ${processCards(input.map(lineToCard))}")
