@@ -13,8 +13,8 @@ object Day5:
       val ranges = input
         .takeWhile(_.trim.nonEmpty)
         .map: line =>
-          val numbers = number.findAllIn(line).map(_.toLong).toSeq
-          (numbers(0), numbers(1), numbers(2))
+          val numbers = number.findAllIn(line).map(_.toLong)
+          (numbers.next(), numbers.next(), numbers.next())
         .toSeq
       i => ranges
         .find((_, s, l) => (s until s + l).contains(i))
