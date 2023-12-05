@@ -4,29 +4,27 @@ object Day5:
 
   def makeSeq(input: Iterator[String]): Seq[Long] =
     val list = number.findAllIn(input.next()).map(_.toLong).toSeq
-    input.next()
+    input.next() // skip blank line
     list
 
-  def makeMap(input: Iterator[String]): Long => Long =
-    input.next()
-    val ranges = Iterator
-      .continually:
-        if input.hasNext then input.next() else ""
-      .takeWhile(_.trim.nonEmpty)
-      .map: line =>
-        val numbers = number.findAllIn(line).map(_.toLong).toSeq
-        (numbers(0), numbers(1), numbers(2))
-      .toSeq
-    i =>
-      ranges
+  def makeMap(input: Iterator[String]): Option[Long => Long] =
+    Option.when(input.hasNext):
+      input.next() // skip section header
+      val ranges = input
+        .takeWhile(_.trim.nonEmpty)
+        .map: line =>
+          val numbers = number.findAllIn(line).map(_.toLong).toSeq
+          (numbers(0), numbers(1), numbers(2))
+        .toSeq
+      i => ranges
         .find((_, s, l) => (s until s + l).contains(i))
         .map(r => r._1 + i - r._2)
         .getOrElse(i)
 
   def processInput(input: Iterator[String]) =
     val seeds = makeSeq(input)
-    val maps = (1 to 7).map(_ => makeMap(input))
-    val seedToLocation = maps.reverse.reduce(_.compose(_))
+    val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
+    val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
     seeds.map(seedToLocation).min
 
   def main(args: Array[String]): Unit =
