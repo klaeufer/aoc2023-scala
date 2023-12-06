@@ -1,3 +1,7 @@
+// https://www.reddit.com/r/adventofcode/comments/18b560a/2023_day_5_part_2_cpu_goes_brrr/
+
+import scala.collection.parallel.CollectionConverters._
+
 object Day5:
 
   val number = """(\d+)""".r
@@ -25,7 +29,7 @@ object Day5:
     val seeds = makeSeq(input)
     val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
     val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
-    seeds.map(seedToLocation).min
+    seeds.par.map(seedToLocation).min
 
   def processPart2(input: Iterator[String]) =
     val seeds = makeSeq(input)
@@ -34,6 +38,7 @@ object Day5:
     seeds.sliding(2, 2).map: p =>
       (p.head until p.head + p.last)
 //        .tapEach(println)
+        .par
         .map(seedToLocation).min
     .tapEach(println)
     .min
@@ -41,8 +46,8 @@ object Day5:
   def main(args: Array[String]): Unit =
 //    println(processPart1(example))
 //    println(processPart1(input))
-//    println(processPart2(example))
-    println(processPart2(input))
+    println(processPart2(example))
+//    println(processPart2(input))
 
   val input = scala.io.Source.fromFile("data/day5input.txt").getLines()
 
