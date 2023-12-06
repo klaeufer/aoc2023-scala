@@ -11,7 +11,7 @@ object Day5:
     Option.when(input.hasNext):
       input.next() // skip section header
       val ranges = input
-        .takeWhile(_.trim.nonEmpty)
+        .takeWhile(_.trim.nn.nonEmpty)
         .map: line =>
           val numbers = number.findAllIn(line).map(_.toLong)
           (numbers.next(), numbers.next(), numbers.next())
@@ -21,15 +21,28 @@ object Day5:
         .map(r => r._1 + i - r._2)
         .getOrElse(i)
 
-  def processInput(input: Iterator[String]) =
+  def processPart1(input: Iterator[String]) =
     val seeds = makeSeq(input)
     val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
     val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
     seeds.map(seedToLocation).min
 
+  def processPart2(input: Iterator[String]) =
+    val seeds = makeSeq(input)
+    val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
+    val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
+    seeds.sliding(2, 2).map: p =>
+      (p.head until p.head + p.last)
+        .tapEach(println)
+        .map(seedToLocation).min
+    .tapEach(println)
+    .min
+
   def main(args: Array[String]): Unit =
-    println(processInput(example))
-    println(processInput(input))
+//    println(processPart1(example))
+//    println(processPart1(input))
+//    println(processPart2(example))
+    println(processPart2(input))
 
   val input = scala.io.Source.fromFile("data/day5Input.txt").getLines()
 
