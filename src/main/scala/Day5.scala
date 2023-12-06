@@ -1,5 +1,10 @@
 // https://www.reddit.com/r/adventofcode/comments/18b560a/2023_day_5_part_2_cpu_goes_brrr/
 
+// TODO It is because with ranges, everything inside the range are valid. 
+// I only needed to know the smallest continuous chunk and look from there. 
+// It is a bet since all my ranges are in high millions and any continuous 
+// chunks should not be smaller than 1000. 
+
 object Day5:
 
   val number = """(\d+)""".r
