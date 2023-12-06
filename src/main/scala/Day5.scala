@@ -33,7 +33,7 @@ object Day5:
     val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
     seeds.sliding(2, 2).map: p =>
       (p.head until p.head + p.last)
-        .tapEach(println)
+//        .tapEach(println)
         .map(seedToLocation).min
     .tapEach(println)
     .min
@@ -44,7 +44,7 @@ object Day5:
 //    println(processPart2(example))
     println(processPart2(input))
 
-  val input = scala.io.Source.fromFile("data/day5Input.txt").getLines()
+  val input = scala.io.Source.fromFile("data/day5input.txt").getLines()
 
   val example: Iterator[String] =
     import scala.language.unsafeNulls
