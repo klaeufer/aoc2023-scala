@@ -46,8 +46,8 @@ object Day5:
   def main(args: Array[String]): Unit =
 //    println(processPart1(example))
 //    println(processPart1(input))
-    println(processPart2(example))
-//    println(processPart2(input))
+//    println(processPart2(example))
+    println(processPart2(input))
 
   val input = scala.io.Source.fromFile("data/day5input.txt").getLines()
 
