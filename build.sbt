@@ -7,7 +7,6 @@ scalaVersion := "3.3.1"
 scalacOptions += "@.scalacOptions.txt"
 
 libraryDependencies ++= Seq(
-  "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4",
   "org.scalanlp" %% "breeze" % "2.1.0",
   "org.scalatest" %% "scalatest"  % "3.2.17"  % Test,
   "org.scalatestplus" %% "scalacheck-1-17" % "3.2.17.0" % "test"
