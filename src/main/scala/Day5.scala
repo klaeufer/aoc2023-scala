@@ -42,18 +42,18 @@ object Day5:
       (p.head until p.head + p.last)
 //        .tapEach(println)
         .map(seedToLocation).min
-    .tapEach(println)
+//    .tapEach(println)
     .min
 
   def main(args: Array[String]): Unit =
-//    println(processPart1(example))
-//    println(processPart1(input))
-//    println(processPart2(example))
+    println(processPart1(example))
+    println(processPart1(input))
+    println(processPart2(example))
     println(processPart2(input))
 
-  val input = scala.io.Source.fromFile("data/day5input.txt").getLines()
+  def input = scala.io.Source.fromFile("data/day5input.txt").getLines()
 
-  val example: Iterator[String] =
+  def example: Iterator[String] =
     import scala.language.unsafeNulls
     """seeds: 79 14 55 13
       |
