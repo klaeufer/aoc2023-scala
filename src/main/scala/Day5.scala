@@ -25,7 +25,7 @@ object Day5:
         .toSeq
       i => ranges
         .find((_, s, l) => (s until s + l).contains(i))
-        .map(r => r._1 + i - r._2)
+        .map((b, s, _) => b + i - s)
         .getOrElse(i)
 
   def processPart1(input: Iterator[String]) =
