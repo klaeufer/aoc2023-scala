@@ -24,7 +24,8 @@ object Day5:
           (numbers.next(), numbers.next(), numbers.next())
         .toSeq
       i => ranges
-        .find((_, s, l) => (s until s + l).contains(i))
+        .find((_, s, l) => (s until s + l).contains(i)) // faster?
+//        .find((_, s, l) => s <= i && i < s + l) // slower?
         .map((b, s, _) => b + i - s)
         .getOrElse(i)
 
