@@ -23,34 +23,32 @@ object Day5:
           val numbers = number.findAllIn(line).map(_.toLong)
           (numbers.next(), numbers.next(), numbers.next())
         .toSeq
+
       i => ranges
         .find((_, s, l) => (s until s + l).contains(i)) // faster?
 //        .find((_, s, l) => s <= i && i < s + l) // slower?
         .map((b, s, _) => b + i - s)
         .getOrElse(i)
 
-  def processPart1(input: Iterator[String]) =
+  def process(input: Iterator[String]) =
     val seeds = makeSeq(input)
-    val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
-    val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
-    seeds.map(seedToLocation).min
-
-  def processPart2(input: Iterator[String]) =
-    val seeds = makeSeq(input)
-    val allMaps = Iterator.continually(makeMap(input)).takeWhile(_.nonEmpty)
-    val seedToLocation = allMaps.map(_.get).toSeq.reverse.reduce(_.compose(_))
-    seeds.sliding(2, 2).map: p =>
-      (p.head until p.head + p.last)
-//        .tapEach(println)
-        .map(seedToLocation).min
-//    .tapEach(println)
-    .min
+    val seedToLocation = Iterator
+      .continually(makeMap(input))
+      .takeWhile(_.nonEmpty)
+      .map(_.get)
+      .reduce((f, g) => g.compose(f))
+    val part1 = seeds.map(seedToLocation).min
+    val part2 = seeds
+      .sliding(2, 2).map: p =>
+        (p.head until p.head + p.last)
+          .map(seedToLocation)
+          .min
+      .min
+    (part1, part2)
 
   def main(args: Array[String]): Unit =
-    println(processPart1(example))
-    println(processPart1(input))
-    println(processPart2(example))
-    println(processPart2(input))
+    println(process(example))
+    println(process(input))
 
   def input = scala.io.Source.fromFile("data/day5input.txt").getLines()
 
